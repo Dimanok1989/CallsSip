@@ -1,6 +1,6 @@
 {
   "name": "calls-sip",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Web site calling application across SIP (Session Initiation Protocol)",
   "main": "index.ts",
   "author": "Dmitriy Kolgaev",

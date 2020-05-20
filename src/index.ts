@@ -51,6 +51,9 @@ class CallsSip {
         const authorizationUsername = this.authorizationUsername;
         const authorizationPassword = this.authorizationPassword;
 
+        if (!this.ws || !server || !authorizationUsername || !authorizationPassword)
+            return false;
+
         const el = this.getAudioElement("remoteAudio");
 
         this.createHtmlElements();
