@@ -1,0 +1,140 @@
+.calls-sip-btn {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    right: 15px;
+    bottom: 15px;
+    background: #c5c5c5;
+    border-radius: 50%;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: 500;
+    opacity: .8;
+    cursor: pointer;
+    text-align: center;
+}
+.calls-sip-btn:hover { opacity: 1; }
+
+.calls-sip-bad-connect { background: #ee4b4b; color: #ffffff; }
+.calls-sip-register { background: #539c37; color: #ffffff; }
+
+.calls-sip-btn > * {
+    width: 30px;
+    height: 30px;
+}
+
+
+.call-sip-display {
+    display: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    position: fixed;
+    width: 230px;
+    right: -245px;
+    bottom: 15px;
+    background: #f0f0f0;
+    border: 1px solid #c8c8c8;
+    border-radius: .25rem;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    text-align: center;
+    z-index: 500;
+}
+.call-sip-display * { box-sizing: border-box; }
+.call-sip-display > div { padding: 10px; }
+
+.call-sip-display-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 3px;
+}
+.call-sip-display-header .call-sip-title {
+    font-weight: 700;
+}
+.call-sip-display-header .call-sip-close {
+    font-size: 2rem;
+    opacity: .6;
+    cursor: pointer;
+}
+.call-sip-display-header .call-sip-close:hover { opacity: 1; }
+
+.call-sip-status {
+    padding: 0 3px 3px;
+    font-size: 80%;
+    text-align: left;
+    font-weight: 700;
+    cursor: default;
+}
+
+.call-sip-screen { padding: 0 15px 10px!important; }
+.call-sip-screen input {
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 110%;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+}
+.call-sip-screen input:disabled {
+    background: #ffffff;
+}
+
+.call-sip-display-footer button {
+    width: 50px;
+    padding: 5px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-sip-success {
+    background: #208820;
+    color: #ffffff;
+}
+.btn-sip-success:hover {
+    background: #1d7a1d;
+}
+.btn-sip-success:disabled {
+    opacity: .7;
+    background: #208820;
+    cursor: default;
+}
+
+.btn-sip-danger {
+    background: #be2020;
+    color: #ffffff;
+}
+.btn-sip-danger:hover {
+    background: #af1313;
+}
+.btn-sip-danger:disabled {
+    opacity: .7;
+    background: #be2020;
+    cursor: default;
+}
+
+.call-sip-calling { background-color: #1714cf; }
+.call-sip-ring { background-color: #ffbb00; color: #000000; }
+
+.call-sip-received-1 {
+    animation-name: blinker;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+    animation-duration: 1.5s;
+    -webkit-animation-name: blinker;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+    -webkit-animation-duration: 1.5s;
+}   
+@keyframes blinker {
+    from { opacity: 1.0; }
+    to { opacity: 0.1; }
+}
+   
+@-webkit-keyframes blinker {
+    from { opacity: 1.0; }
+    to { opacity: 0.1; }
+}
