@@ -11,10 +11,10 @@ class CallsSip {
         position: "right bottom",
         audio: true,
         rings: {
-            answered: "./../public/sounds/answered.mp3",
-            rejected: "./../public/sounds/rejected.mp3",
-            ringback: "./../public/sounds/ringback.mp3",
-            ringing: "./../public/sounds/ringing.ogg",
+            answered: "./dist/sounds/answered.mp3",
+            rejected: "./dist/sounds/rejected.mp3",
+            ringback: "./dist/sounds/ringback.mp3",
+            ringing: "./dist/sounds/ringing.ogg",
         },
     };
 
