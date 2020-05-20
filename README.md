@@ -35,4 +35,5 @@ __sipjs.sip.call("1001");
 ```html
 <button type="button" onclick="__sipjs.sip.call("1001");">Звонить</button>
 ```
+
 [История версий](./docs/versions.md "История версий")

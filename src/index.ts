@@ -2,8 +2,6 @@ import './style.css'; // Основной файл стилей
 import { SimpleUser, SimpleUserOptions } from "sip.js/lib/platform/web"; // Библиотека SIP.js
 import $ from "jquery";
 
-import '@fortawesome/fontawesome-free/js/all.js';
-
 
 class CallsSip {
 
@@ -141,8 +139,7 @@ class CallsSip {
 
                 $('#calls-sip')
                     .removeClass('call-sip-received call-sip-ring')
-                    .addClass('call-sip-calling')
-                    .html('<i class="fas fa-phone fa-lg"></i>');
+                    .addClass('call-sip-calling');
 
                 $('#call-sip-status').text('Соединение установлено');
 
@@ -156,9 +153,7 @@ class CallsSip {
             // Звонок прекращен
             onCallHangup: () => {
 
-                $('#calls-sip')
-                    .removeClass('call-sip-calling call-sip-received call-sip-ring')
-                    .html('<i class="fas fa-phone fa-lg fa-rotate-270"></i>');
+                $('#calls-sip').removeClass('call-sip-calling call-sip-received call-sip-ring');
 
                 $('#call-sip-screen').val('');
                 $('#call-sip-status').text('Завершено');
@@ -187,7 +182,7 @@ class CallsSip {
         $('#calls-sip').off('click');
         $('#call-sip-display .call-sip-close').off('click');
 
-        $('#calls-sip').attr('class', 'calls-sip-btn').html('<i class="fas fa-phone fa-lg fa-rotate-270"></i>');
+        $('#calls-sip').attr('class', 'calls-sip-btn');
 
         this.closePhoneDisplay();
 
@@ -239,7 +234,6 @@ class CallsSip {
     searchFromNumber(data: any) {
 
         let number = "Неизвестно";
-        console.log(data);
 
         if ($.isArray(data)) {
             data.forEach((elem: any) => {
@@ -263,7 +257,7 @@ class CallsSip {
     createHtmlElements() {
 
         $('body').append(`<div id="calls-sip" class="calls-sip-btn">
-            <i class="fas fa-phone fa-lg fa-rotate-270"></i>
+            <div>${this.getIcon()}</div>
         </div>
         <div id="call-sip-display" class="call-sip-display">
             <div class="call-sip-display-header">
@@ -276,10 +270,10 @@ class CallsSip {
             </div>
             <div class="call-sip-display-footer">
                 <button type="button" id="call-sip-on" class="btn-sip-success" disabled>
-                    <i class="fas fa-phone-alt"></i>
+                    ${this.getIcon("start")}
                 </button>
                 <button type="button" id="call-sip-off" class="btn-sip-danger" disabled onclick="__sipjs.sip.simpleUser.hangup();">
-                    <i class="fas fa-phone-slash"></i>
+                    ${this.getIcon("end")}
                 </div>
             </div>
         </div>`);
@@ -388,6 +382,30 @@ class CallsSip {
 
         if (isUpdate)
             location.reload();
+
+    }
+    
+    getIcon(type: string = "") {
+
+        let icon = "";
+
+        switch (type) {
+
+            case "start":
+                icon = `<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M497.39 361.8l-112-48a24 24 0 0 0-28 6.9l-49.6 60.6A370.66 370.66 0 0 1 130.6 204.11l60.6-49.6a23.94 23.94 0 0 0 6.9-28l-48-112A24.16 24.16 0 0 0 122.6.61l-104 24A24 24 0 0 0 0 48c0 256.5 207.9 464 464 464a24 24 0 0 0 23.4-18.6l24-104a24.29 24.29 0 0 0-14.01-27.6z"></path></svg>`;
+                break;
+
+            case "end":
+                icon = `<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M268.2 381.4l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48c-10.7 4.6-16.5 16.1-13.9 27.5l24 104c2.5 10.8 12.1 18.6 23.4 18.6 100.7 0 193.7-32.4 269.7-86.9l-80-61.8c-10.9 6.5-22.1 12.7-33.6 18.1zm365.6 76.7L475.1 335.5C537.9 256.4 576 156.9 576 48c0-11.2-7.7-20.9-18.6-23.4l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-12.2 26.1-27.9 50.3-46 72.8L45.5 3.4C38.5-2 28.5-.8 23 6.2L3.4 31.4c-5.4 7-4.2 17 2.8 22.4l588.4 454.7c7 5.4 17 4.2 22.5-2.8l19.6-25.3c5.4-6.8 4.1-16.9-2.9-22.3z"></path></svg>`;
+                break;
+        
+            default:
+                icon = `<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"></path></svg>`;
+                break;
+
+        }
+
+        return icon;
 
     }
 
