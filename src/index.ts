@@ -13,6 +13,7 @@ class CallsSip {
         rings: {
             answered: "./dist/sounds/answered.mp3",
             rejected: "./dist/sounds/rejected.mp3",
+            hangup: "./dist/sounds/hangup.mp3",
             ringback: "./dist/sounds/ringback.mp3",
             ringing: "./dist/sounds/ringing.ogg",
         },
@@ -23,10 +24,11 @@ class CallsSip {
     authorizationUsername: string; // Логин пользователя
     authorizationPassword: string; // Пароль пользователя
     aor: string; // SIP Адрес записи
+    simpleUser: any; // Объект пользваотеля
 
-    simpleUser: any;
+    audio: any; // Объект аудио элемента для звуковых эффектов
 
-    audio: any;
+    calling: boolean = false; // Осуществляется звонок
 
     constructor(config: any) {
 
@@ -36,6 +38,34 @@ class CallsSip {
         this.authorizationPassword = config.authorizationPassword || false;
 
         this.aor = `sip:${this.authorizationUsername}@${this.server}`;
+
+        // Проверка собственных настроек
+        if (config.options) {
+
+            let options: any = config.options;
+
+            // Заголовок приложения
+            if (options.title && options.title != "")
+                this.options.title = options.title;
+
+            // Воспроизведение звуковых эффектов
+            this.options.audio = options.audio === false ? false : true;
+
+            // Свои звуковые эффекты
+            if (options.rings) {
+
+                if (options.rings.hangup && options.rings.hangup != "")
+                    this.options.rings.hangup = options.rings.hangup;
+
+                if (options.rings.ringback && options.rings.ringback != "")
+                    this.options.rings.ringback = options.rings.ringback;
+
+                if (options.rings.ringing && options.rings.ringing != "")
+                    this.options.rings.ringing = options.rings.ringing;
+
+            }
+
+        }
 
     }
 
@@ -56,6 +86,7 @@ class CallsSip {
 
         this.createHtmlElements();
 
+        // Настройки для подключения пользователя
         let options: SimpleUserOptions = {
             aor,
             media: {
@@ -79,7 +110,7 @@ class CallsSip {
         // Подключение к серверу
         await this.simpleUser.connect();
 
-        // Регистрация на сервере
+        // Регистрация польвзователя на сервере
         await this.simpleUser.register();
 
         // Обработка событий
@@ -90,6 +121,7 @@ class CallsSip {
                 $('#calls-sip').removeClass('calls-sip-bad-connect').addClass('calls-sip-register');
                 $('#calls-sip').on('click', this.openPhoneDisplay);
                 $('#call-sip-display .call-sip-close').on('click', this.closePhoneDisplay);
+                this.calling = false;
             },
 
             // Отмена регистрации
@@ -117,6 +149,7 @@ class CallsSip {
 
                 this.playAudio(this.options.rings.ringing, true);
                 this.animateCallStart();
+                this.calling = true;
 
                 $(document).on("keydown", this.disableUpdate);
 
@@ -147,6 +180,7 @@ class CallsSip {
                 $('#call-sip-display #call-sip-on').prop('disabled', true);
 
                 this.stopAudio();
+                this.calling = true;
                 
             },
 
@@ -167,9 +201,10 @@ class CallsSip {
                 $('#call-sip-display #call-sip-off').prop('disabled', true);
                 $('#call-sip-display #call-sip-on').prop('disabled', true);
 
-                this.playAudio(this.options.rings.answered);
+                this.playAudio(this.options.rings.hangup);
                 this.animateCallStop();
                 $(document).off("keydown", this.disableUpdate);
+                this.calling = false;
 
             },
 
@@ -185,8 +220,9 @@ class CallsSip {
         $('#calls-sip').attr('class', 'calls-sip-btn');
 
         this.closePhoneDisplay();
+        this.calling = false;
 
-    } 
+    }
 
     /**
      * Метод исходящего звонка
@@ -195,18 +231,34 @@ class CallsSip {
      */
     async call(number: string) {
 
+        if (this.calling)
+            return false;
+
+        this.calling = true;
+
         let destination = "sip:" + number + "@" + this.server;
         $('#call-sip-screen').val(number);
 
         $('#call-sip-status').text('Соединение...');
-        this.playAudio(this.options.rings.ringback, true);
 
-        $('#call-sip-display #call-sip-off').prop('disabled', false);
         this.openPhoneDisplay();
 
         $(document).on("keydown", this.disableUpdate);
 
+        setTimeout(() => {
+            this.playAudio(this.options.rings.ringback, true);
+            // $('#call-sip-display #call-sip-off').prop('disabled', false).removeAttr('onclick')
+            // .on('click', () => {
+            //     this.simpleUser.decline();
+            // });
+        }, 1000);
+
         await this.simpleUser.call(destination);
+
+        $('#call-sip-display #call-sip-off').prop('disabled', false);
+        // $('#call-sip-display #call-sip-off').prop('disabled', false).on('click', () => {
+        //     this.simpleUser.hangup();
+        // });
 
     }
 

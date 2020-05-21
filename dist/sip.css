@@ -47,7 +47,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 3px;
+    padding-top: 3px!important;
 }
 .call-sip-display-header .call-sip-title {
     font-weight: 700;
@@ -103,7 +103,7 @@
     background: #1d7a1d;
 }
 .btn-sip-success:disabled {
-    opacity: .7;
+    opacity: .5;
     background: #208820;
     cursor: default;
 }
@@ -116,7 +116,7 @@
     background: #af1313;
 }
 .btn-sip-danger:disabled {
-    opacity: .7;
+    opacity: .5;
     background: #be2020;
     cursor: default;
 }

@@ -10,6 +10,14 @@
     "dev-watch": "webpack --mode development -w",
     "prod": "webpack --mode production"
   },
+  "keywords": [
+    "sip",
+    "webrtc",
+    "websocket",
+    "javascript",
+    "typescript",
+    "sip.js"
+  ],
   "dependencies": {
     "sip.js": "^0.16.1"
   },
